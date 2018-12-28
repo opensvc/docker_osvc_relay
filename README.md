@@ -11,7 +11,7 @@ Usage :
 -----
 AES secret is expected to be configured at container runtime, based on environmnent variable SECRET
 
-    docker run -e SECRET=1234567812345678 opensvc/docker_osvc_relay
+    docker run -e SECRET=1234567812345678 opensvc/relay
 
 
 Note :
@@ -26,7 +26,7 @@ By default, relay is listening on 0.0.0.0:1214. Override is possible by using va
 Examples :
 --------
 
-    docker run -e SECRET=1234567812345678 opensvc/docker_osvc_relay                                     # listen on 0.0.0.0:1214
-    docker run -e SECRET=1234567812345678 -e ADDR=192.168.100.1 opensvc/docker_osvc_relay               # listen on 192.168.100.1:1214
-    docker run -e SECRET=1234567812345678 -e PORT=9999 opensvc/docker_osvc_relay                        # listen on 0.0.0.0:9999
-    docker run -e SECRET=1234567812345678 -e ADDR=192.168.100.1 -e PORT=4321 opensvc/docker_osvc_relay  # listen on 192.168.100.1:4321
+    docker run -e SECRET=1234567812345678 opensvc/relay                                     # listen on 0.0.0.0:1214
+    docker run -e SECRET=1234567812345678 -e ADDR=192.168.100.1 opensvc/relay               # listen on 192.168.100.1:1214
+    docker run -e SECRET=1234567812345678 -e PORT=9999 opensvc/relay                        # listen on 0.0.0.0:9999
+    docker run -e SECRET=1234567812345678 -e ADDR=192.168.100.1 -e PORT=4321 opensvc/relay  # listen on 192.168.100.1:4321
