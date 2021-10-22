@@ -27,7 +27,12 @@ if [ "$1" = 'relay' ]; then
 	    nodemgr set --kw listener.port=${PORT}
     fi
 
-    exec /usr/bin/python /opt/opensvc/lib/osvcd.py -f
+    cd /opt/opensvc
+    if [ -f /opt/opensvc/lib/osvcd.py ]; then
+            exec /usr/bin/python /opt/opensvc/lib/osvcd.py -f
+    else
+            exec /usr/bin/python -m opensvc.daemon -f
+    fi
 fi
 
 exec "$@"
