@@ -2,37 +2,39 @@
 set -e
 
 if [ "$1" = 'relay' ]; then
+    echo "=== Configure"
+    om cluster create
 
-    echo "Configuring OpenSVC cluster.nodes=${HOSTNAME}"
-    nodemgr set --kw cluster.nodes=${HOSTNAME}
+    echo "set cluster.nodes=${HOSTNAME}"
+    om cluster set --kw cluster.nodes=${HOSTNAME}
 
-    echo "Configuring OpenSVC cluster.name=${HOSTNAME}-relay"
-    nodemgr set --kw cluster.name=${HOSTNAME}-relay
+    echo "set cluster.name=${HOSTNAME}"
+    om cluster set --kw cluster.name=${HOSTNAME}
 
-    echo "Disabling statistics collection"
-    nodemgr set --kw stats_collection.schedule=@0
+    echo "set stats_collection.schedule=@0"
+    om cluster set --kw stats_collection.schedule=@0
 
     if [ "X${SECRET}" != "X" ]; then
-	    echo "Configuring OpenSVC cluster.secret=${SECRET}"
-	    nodemgr set --kw cluster.secret=${SECRET}
+	    echo "set cluster.secret=${SECRET}"
+	    om cluster set --kw cluster.secret=${SECRET}
     fi
 
     if [ "${ADDR}" != "0.0.0.0" ]; then
-	    echo "Configuring OpenSVC listener.addr=${ADDR}"
-	    nodemgr set --kw listener.addr=${ADDR}
+	    echo "set listener.addr=${ADDR}"
+	    om cluster set --kw listener.addr=${ADDR}
     fi
 
     if [ "${PORT}" != "1214" ]; then
-	    echo "Configuring OpenSVC listener.port=${PORT}"
-	    nodemgr set --kw listener.port=${PORT}
+	    echo "set listener.port=${PORT}"
+	    om cluster set --kw listener.port=${PORT}
     fi
 
-    cd /opt/opensvc
-    if [ -f /opt/opensvc/lib/osvcd.py ]; then
-            exec /usr/bin/python /opt/opensvc/lib/osvcd.py -f
-    else
-            exec /usr/bin/python -m opensvc.daemon -f
-    fi
+    echo "=== Resulting configuration"
+    om cluster print config
+
+    echo "=== Start"
+    exec om daemon start --foreground
 fi
 
 exec "$@"
+
